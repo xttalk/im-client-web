@@ -1,0 +1,65 @@
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      'base': #1A73E8,
+    ),
+  ),
+);
+
+
+
+// 如果只是按需导入，则可以忽略以下内容。
+// 如果你想导入所有样式:
+@use "element-plus/theme-chalk/src/index.scss" as *;
+
+//边框圆角
+.el-textarea__inner,
+.el-date-editor.el-input__inner,
+.el-button,
+.el-input__wrapper{
+    border-radius: 2px !important;
+}
+//最小宽度、高度
+.el-textarea__inner{
+	min-height: 90px !important;
+}
+.el-input-number{
+    min-width:200px !important;
+}
+.el-switch__core{
+	min-width:50px !important;
+}
+.el-date-editor--datetimerange.el-input,
+ .el-date-editor--datetimerange.el-input__inner,
+.el-date-editor--daterange.el-input,
+.el-date-editor--daterange.el-input__inner,
+.el-date-editor--timerange.el-input,
+.el-date-editor--timerange.el-input__inner{
+	max-width: 370px !important;
+}
+// .el-switch.is-checked{
+//     .el-switch__core .el-switch__inner{
+//         left:50% !important;
+//     }
+// }
+// .el-switch:not(.is-checked){
+//   .el-switch__core .el-switch__inner{
+//       left:10% !important;
+//   }
+// }
+// .el-switch{
+//   .el-switch__inner{
+//     padding:0 !important;
+//     width:70px !important;
+//     border:1px solid red !important;
+//   }
+// }
+.el-descriptions--small .el-descriptions__body .el-descriptions__table.is-bordered .el-descriptions__cell{
+  padding:8px 11px !important;
+}
+.el-descriptions--small .el-descriptions__body .el-descriptions__table .el-descriptions__cell{
+  font-size:14px !important;
+}
+.el-descriptions__label.el-descriptions__cell.is-bordered-label{
+  font-weight:400 !important;
+}

@@ -1,0 +1,118 @@
+html,
+body,
+#app {
+    width: 100%;
+    height: 100%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica Neue,Helvetica,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,sans-serif;
+    outline: none;
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+::-webkit-scrollbar-track-piece {
+    background-color: #eee;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    height: 5px;
+    background-color: #9e9e9e;
+    -webkit-border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+    width: 5px;
+    background-color: #eee;
+    -webkit-border-radius: 6px;
+}
+
+.block-box-shadow {
+    box-shadow: 0 0 5px #e3e3e3;
+    border-radius: 2px;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.text-align-left {
+    text-align: left;
+}
+
+.text-align-right {
+    text-align: right;
+}
+
+.text-align-justify {
+    text-align: justify;
+}
+
+
+// 公共超出隐藏
+
+.line2,
+.line3,
+.line4,
+.line5,
+.line6 {
+    position: relative;
+    width: 90%;
+    max-height: 189px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.line1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.line2 {
+    -webkit-line-clamp: 2;
+}
+
+.line3 {
+    -webkit-line-clamp: 3;
+}
+
+.line4 {
+    -webkit-line-clamp: 4;
+}
+
+.line5 {
+    -webkit-line-clamp: 5;
+}
+
+.line6 {
+    -webkit-line-clamp: 6;
+}
+
+
+//顶部进度条
+#nprogress .bar {
+    color: red !important;
+}
+
+
+
+
+
