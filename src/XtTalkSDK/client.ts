@@ -4,29 +4,31 @@ import { XtTalkEvent } from "./event";
 import {io,Socket} from "socket.io-client";
 
 export enum EventName{
-    PrivateMsgEvent = "private_msg_event"
+    PrivateMsgEvent = "private_msg_event", //收到私聊消息
+    PrivateMsgAckEvent = "private_msg_ack_event",//私聊消息送达事件
 
 
 }
-
 export class Client{
-    public socket:WebSocket;
+    public socket:WebSocket|undefined;
     public event:XtTalkEvent;
     private sdk:XtTalkSdk;
     private seq:number = 1;//客户端序列
     private _syncDataHandler = new Map<number,(bytes:Uint8Array)=>void>();
-    private sendBufferQueue:any[] = [];//发送队列
+    // private sendBufferQueue:any[] = [];//发送队列
 
-    public constructor(url:string){
+    public constructor(){
         this.event = new XtTalkEvent();
+        this.sdk = new XtTalkSdk(this);
+    }
+
+    public connect(url:string){
         this.socket = new WebSocket(url);
         this.socket.binaryType = "arraybuffer";
         this.socket.onopen = this.onOpen.bind(this);
         this.socket.onclose = this.onClose.bind(this);
         this.socket.onmessage = this.onMessage.bind(this);
-        this.socket.bufferedAmount
-        this.sdk = new XtTalkSdk(this);
-        console.log(this.event)
+        this.socket.bufferedAmount;
     }
 
 
@@ -64,7 +66,7 @@ export class Client{
         });
     }
     private sendBuffer(buffer:ArrayBuffer){
-        this.socket.send(buffer);
+        this.socket?.send(buffer);
         // private sendBuffer(buffer:ArrayBuffer){
         // if(this.sendBufferQueue.length == 0 && this.socket.bufferedAmount == 0){
         //     console.log('当前可以直接发送数据！！！！！！！！！！！！！！！！',buffer)
@@ -144,6 +146,9 @@ export class Client{
             switch(cmd){
                 case pb.Packet.PrivateMsg://收到私聊消息
                     this.event.dispatchEvent(EventName.PrivateMsgEvent,uint8ArrayBytes);
+                break;
+                case pb.Packet.PrivateMsgAck://私聊消息送达
+                    this.event.dispatchEvent(EventName.PrivateMsgAckEvent,uint8ArrayBytes);
                 break;
 
 

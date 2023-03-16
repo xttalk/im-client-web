@@ -8,6 +8,9 @@ declare module '@vue/runtime-core' {
     ElButton: typeof import('element-plus/es')['ElButton']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     IEpSearch: typeof import('~icons/ep/search')['default']
+    PrivateMsgItem: typeof import('./components/message/PrivateMsgItem.vue')['default']
+    PrivateMsgStatus: typeof import('./components/message/PrivateMsgStatus.vue')['default']
+    PrivateSender: typeof import('./components/message/PrivateSender.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

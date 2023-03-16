@@ -6,6 +6,13 @@ const routes:RouteRecordRaw[] = [
         path:'/',
         name:'index',
         component:()=>import('@/pages/index.vue'),
+        children:[
+            {//私聊对话
+                path:'/private_msg/:userId',
+                name:'private_msg',
+                component:()=>import('@/pages/chat/private.vue'),
+            }
+        ]
     },
 ];
 

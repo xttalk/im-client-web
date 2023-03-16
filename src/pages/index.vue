@@ -1,15 +1,14 @@
 <template>
     <el-button @click="connectServer" type="primary">连接服务器</el-button>
     <el-button @click="login" type="primary">登录账号</el-button>
-    <el-button @click="getData" type="primary">同时获取数据</el-button>
-    <el-button @click="loadProfile" type="primary">获取当前账号数据</el-button>
+    <input type="text" v-model="token">
     <div class="im_wrap">
         <div class="left_wrap">
             <div class="userinfo">
                 <div class="avatar">
-                    <img src="http://q2.qlogo.cn/headimg_dl?dst_uin=2289453456&spec=100" alt="">
+                    <img :src="getAvatar(Number(userData.userId))" alt="">
                 </div>
-                <h2 class="nickname line1">幻音い</h2>
+                <h2 class="nickname line1">{{ userData.nickname }}</h2>
             </div>
         </div>
         <div class="session_wrap">
@@ -22,112 +21,67 @@
             </div>
             <!-- 会话列表 -->
             <div class="session_list">
-                <div class="session_item" v-for="item in friendList">
+                <router-link :to="{name:'private_msg',params:{userId:Number(item.userId)}}" class="session_item" v-for="item in friendList">
                     <div class="avatar">
-                        <img :src="`http://q2.qlogo.cn/headimg_dl?dst_uin=${item.qq}&spec=100`" alt="">
+                        <img :src="getAvatar(Number(item.userId))" alt="">
                     </div>
                     <div class="info">
                         <h3 class="nickname">{{ item.nickname }}</h3>
-                        <p class="desc">{{ item.desc }}</p>
+                        <p class="desc">暂无信息</p>
                     </div>
                     <div class="tip">
                         <p class="time">23:14</p>
                     </div>
-                </div>
+                </router-link>
             </div>
         </div>
-        <div class="content_wrap private_page">
-            <!-- 私聊会话界面 -->
-            <div class="private_page">
-                <div class="header">
-                    <h2 class="nickname">图书の帕秋莉</h2>
-                </div>
-                <div class="msg_list">
-                    <div class="msg_item" v-for="msg in 10">
-                        <div class="avatar">
-                            <img src="http://q2.qlogo.cn/headimg_dl?dst_uin=953259199&spec=100" alt="">
-                        </div>
-                        <div class="msg_wrap">
-                            <p class="msg_text">你干嘛 哎哟</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="sender">
-                    <textarea class="input" ></textarea>
-                    <div class="btns">
-                        <el-button type="primary">发送</el-button>
-                    </div>
-                </div>
-            </div>
+        <div class="content_wrap">
+            <router-view :key="routerKey"></router-view>
         </div>
-
-
-        
 
     </div>
 </template>
 <script setup lang="ts">
-
-import { Client,EventName } from '@/XtTalkSDK/client';
+// 该页面属于demo开发，后续完善
+import ClientManager from '@/XtTalkSDK/common';
 
 import {pb} from '@/proto/proto';
 import useToast from '@/utils/useToast';
 import { useUserStore } from '@/stores/useUserStore';
+import { storeToRefs } from 'pinia';
 
-const {setUser} = useUserStore()
+const {setUser,getAvatar} = useUserStore();
+const {userData} = storeToRefs(useUserStore())
+const route = useRoute();
+const router = useRouter();
+const routerKey = computed(() => {
+    return route.fullPath;
+});
 
-const getAvatar = (uid:number) => {
-    return `https://static.acgxt.com/avatar/${uid}.jpg`;
-}
-
-
-const friendList = ref<any[]>([
-    {qq:953259199,nickname:'图书の帕秋莉',desc:"OP你在干嘛"},
-    {qq:541769917,nickname:'『    』',desc:'奶奶的 二十分钟没进去'},
-    {qq:1025630734,nickname:'蓝天白云',desc:'请我吃饭'},
-    {qq:1062000001,nickname:'你想变成什么颜色',desc:'转钱 明天发货'},
-    {qq:395797943,nickname:'Aaaaria',desc:'啊啊'},
-    {qq:182477959,nickname:'R°',desc:'你干嘛 哎哟'},
-    {qq:1312563525,nickname:'Youmu°',desc:'?'},
-]);
-const msgList = ref<any[]>([
-
-]);
-
-
-const client = ref<Client>();
-
-const login = async (command:any) => {
-    if(!client.value) return;
+const token = ref<string>('1');
+const friendList = ref<pb.IFriend[]>([]);
+const login = async () => {
     try{
-        const bytes = await client.value.getSDK().login("1");
+        const bytes = await ClientManager.getClient().getSDK().login(token.value);
         const data = pb.PacketLoginRes.decode(bytes);
         console.log('获取数据',data);
         if(data.retCode != pb.RetCode.Success){
             useToast().error(`登录失败,状态码: ${data.retCode}`);
             return;
         }
-        useToast().success(`登录成功，用户ID: ${data.uid}`);
-       
-
-    }catch(e){
-        useToast().error(`请求服务端超时`);
-    }
-}
-const getData = () => {
-    try{
-        loadProfile();
-        loadFriendList();
+        useToast().success(`登录成功,用户ID: ${data.uid}`);
+       //加载个人信息
+       loadProfile();
+       loadFriendList();
     }catch(e){
         useToast().error(`请求服务端超时`);
     }
 }
 //加载个人资料
 const loadProfile = async () => {
-    if(!client.value)return;
     try{
         //获取好友列表
-        const bytes = await client.value.getSDK().getProfile();
+        const bytes = await ClientManager.getClient().getSDK().getProfile();
         const data = pb.PacketGetProfileRes.decode(bytes);
 
         setUser({
@@ -144,31 +98,38 @@ const loadProfile = async () => {
         useToast().error(`请求服务端超时`);
     }
 }
-
 //加载好友列表
 const loadFriendList = async () => {
-    if(!client.value)return;
     try{
         //获取好友列表
-        const bytes = await client.value.getSDK().getFriendList(1,100);
+        const bytes = await ClientManager.getClient().getSDK().getFriendList(1,100);
         const data = pb.PacketGetFriendListRes.decode(bytes);
         console.log('获取当前好友列表',data)
+        if(data.retCode != pb.RetCode.Success) {
+            useToast().error(`加载好友列表失败,错误码(${data.retCode})`);
+            return
+        }
+        friendList.value = [];
+        data.list.forEach((item:pb.IFriend)=>{
+            friendList.value.push(item);
+        });
     }catch(e){
         useToast().error(`请求服务端超时`);
     }
 }
 
 const connectServer = () => {
-    // client.value = new Client("ws://127.0.0.1:12345");
-    client.value = new Client("ws://192.168.31.100:18001");
-    // client.value = new Client("ws://192.168.31.100:9080");
-    //私聊消息事件
-    client.value.getEvent().addEventListener(EventName.PrivateMsgEvent,(bytes:Uint8Array)=>{
-        const msg = pb.PacketPrivateMsg.decode(bytes);
-        console.log('收到私聊消息',msg)
-    });
+    ClientManager.connect("ws://192.168.31.100:18001")
 }
 
+
+onMounted(()=>{
+    if(route.name != 'index'){
+        router.replace({
+            name:'index'
+        })
+    }
+});
 
 </script>
 <style lang="scss">
@@ -257,6 +218,7 @@ const connectServer = () => {
                     .nickname{
                         font-weight: 500;
                         font-size:16px;
+                        color:#444;
                     }
                     .desc{
                         color:#828282;
@@ -269,6 +231,7 @@ const connectServer = () => {
                     font-size:14px;
                 }
             }
+            .router-link-active,
             .session_item:hover{
                 cursor: pointer;
                 background-color: #EFEBF0;
@@ -278,69 +241,6 @@ const connectServer = () => {
     .content_wrap{
         flex:1;
         background-color: #FEF5FF;
-        .private_page{
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            .header{
-                padding:0 20px;
-                height:60px;
-                border-bottom:1px solid #D8D8D8;
-                .nickname{
-                    line-height:60px;
-                    font-size:22px;
-                    font-weight: 500;
-                    color:#222;
-                }
-            }
-            .msg_list{
-                flex:1;
-                padding:20px 20px;
-                overflow-y: auto;
-                .msg_item{
-                    display:flex;
-                    margin:5px auto;
-                    .avatar{
-                        flex:0 0 50px;
-                        img{
-                            width:40px;
-                            height:40px;
-                            border-radius:50%;
-                        }
-                    }
-                    .msg_wrap{
-                        .msg_text{
-                            background-color: #fff;
-                            // background-color: red;
-                            border-top-right-radius: 20px;
-                            border-bottom-left-radius: 20px;
-                            font-size:14px;
-                            padding:8px 8px;
-                            color:#333;
-                        }
-                       
-                    }
-                }
-            }
-            .sender{
-                height:150px;
-                background-color: #FDF9FE;
-                padding:0 10px;
-                .input{
-                    background-color: transparent;
-                    border:0;
-                    height:calc(100% - 80px);
-                    width:calc(100% - 20px);
-                    font-size:18px;
-                    padding:10px;
-                    resize:none;
-                }
-                .btns{
-                    display:flex;
-                    justify-content: right;
-                }
-            }
-        }
     }
     
 }

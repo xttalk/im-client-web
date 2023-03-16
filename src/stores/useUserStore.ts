@@ -41,11 +41,16 @@ export const useUserStore = defineStore('user',()=>{
         }
     }
 
+    //todo 临时数据
+    const getAvatar = (uid:number)  => {
+        return `https://static.acgxt.com/avatar/${uid}.jpg`;
+    }
+
     return {
         userData,
         setUser,
 
-
+        getAvatar,
         setToken,
         getToken,
         removeToken,
