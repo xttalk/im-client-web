@@ -1,6 +1,6 @@
 
 import moment from "moment";
 
-export default function useMoment(){
-    return moment;
+export default function useMoment(args:any){
+    return moment(args);
 }

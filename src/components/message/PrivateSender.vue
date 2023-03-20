@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import {pb} from '@/proto/proto';
 import useToast from '@/utils/useToast';
-import { TextMsg,ImageMsg } from '@/XtTalkSDK/msg';
+import { TextMsg,ImageMsg } from '@/XtTalkSDK/utils';
 /**
  * @sendMessage 发送消息事件
  */
@@ -41,4 +41,8 @@ const sendImgClick = () => {
     emits('sendMessage',pb.PacketMsgType.Image,msg);
 }
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.sender{
+    box-shadow:0 0 10px rgb(230, 230, 230);
+}
+</style>

@@ -780,6 +780,139 @@ export namespace pb {
         public static getTypeUrl(typeUrlPrefix?: string): string;
     }
 
+    /** Properties of a SelfUser. */
+    interface ISelfUser {
+
+        /** SelfUser userId */
+        userId?: (number|Long|null);
+
+        /** SelfUser nickname */
+        nickname?: (string|null);
+
+        /** SelfUser username */
+        username?: (string|null);
+
+        /** SelfUser note */
+        note?: (string|null);
+
+        /** SelfUser age */
+        age?: (number|null);
+
+        /** SelfUser sex */
+        sex?: (number|null);
+
+        /** SelfUser email */
+        email?: (string|null);
+    }
+
+    /** Represents a SelfUser. */
+    class SelfUser implements ISelfUser {
+
+        /**
+         * Constructs a new SelfUser.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: pb.ISelfUser);
+
+        /** SelfUser userId. */
+        public userId: (number|Long);
+
+        /** SelfUser nickname. */
+        public nickname: string;
+
+        /** SelfUser username. */
+        public username: string;
+
+        /** SelfUser note. */
+        public note: string;
+
+        /** SelfUser age. */
+        public age: number;
+
+        /** SelfUser sex. */
+        public sex: number;
+
+        /** SelfUser email. */
+        public email: string;
+
+        /**
+         * Creates a new SelfUser instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns SelfUser instance
+         */
+        public static create(properties?: pb.ISelfUser): pb.SelfUser;
+
+        /**
+         * Encodes the specified SelfUser message. Does not implicitly {@link pb.SelfUser.verify|verify} messages.
+         * @param message SelfUser message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: pb.ISelfUser, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified SelfUser message, length delimited. Does not implicitly {@link pb.SelfUser.verify|verify} messages.
+         * @param message SelfUser message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: pb.ISelfUser, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a SelfUser message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns SelfUser
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pb.SelfUser;
+
+        /**
+         * Decodes a SelfUser message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns SelfUser
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pb.SelfUser;
+
+        /**
+         * Verifies a SelfUser message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a SelfUser message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns SelfUser
+         */
+        public static fromObject(object: { [k: string]: any }): pb.SelfUser;
+
+        /**
+         * Creates a plain object from a SelfUser message. Also converts values to other types if specified.
+         * @param message SelfUser
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: pb.SelfUser, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this SelfUser to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+
+        /**
+         * Gets the default type url for SelfUser
+         * @param [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns The default type url
+         */
+        public static getTypeUrl(typeUrlPrefix?: string): string;
+    }
+
     /** Properties of a User. */
     interface IUser {
 
@@ -791,6 +924,15 @@ export namespace pb {
 
         /** User username */
         username?: (string|null);
+
+        /** User note */
+        note?: (string|null);
+
+        /** User age */
+        age?: (number|null);
+
+        /** User sex */
+        sex?: (number|null);
     }
 
     /** Represents a User. */
@@ -810,6 +952,15 @@ export namespace pb {
 
         /** User username. */
         public username: string;
+
+        /** User note. */
+        public note: string;
+
+        /** User age. */
+        public age: number;
+
+        /** User sex. */
+        public sex: number;
 
         /**
          * Creates a new User instance using the specified properties.
@@ -906,6 +1057,15 @@ export namespace pb {
 
         /** Friend remark */
         remark?: (string|null);
+
+        /** Friend note */
+        note?: (string|null);
+
+        /** Friend age */
+        age?: (number|null);
+
+        /** Friend sex */
+        sex?: (number|null);
     }
 
     /** Represents a Friend. */
@@ -931,6 +1091,15 @@ export namespace pb {
 
         /** Friend remark. */
         public remark: string;
+
+        /** Friend note. */
+        public note: string;
+
+        /** Friend age. */
+        public age: number;
+
+        /** Friend sex. */
+        public sex: number;
 
         /**
          * Creates a new Friend instance using the specified properties.
@@ -3800,23 +3969,8 @@ export namespace pb {
     /** Properties of a PacketGetProfileRes. */
     interface IPacketGetProfileRes {
 
-        /** PacketGetProfileRes userId */
-        userId?: (number|Long|null);
-
-        /** PacketGetProfileRes nickName */
-        nickName?: (string|null);
-
-        /** PacketGetProfileRes email */
-        email?: (string|null);
-
-        /** PacketGetProfileRes note */
-        note?: (string|null);
-
-        /** PacketGetProfileRes age */
-        age?: (number|null);
-
-        /** PacketGetProfileRes sex */
-        sex?: (number|null);
+        /** PacketGetProfileRes user */
+        user?: (pb.ISelfUser|null);
     }
 
     /** Represents a PacketGetProfileRes. */
@@ -3828,23 +3982,8 @@ export namespace pb {
          */
         constructor(properties?: pb.IPacketGetProfileRes);
 
-        /** PacketGetProfileRes userId. */
-        public userId: (number|Long);
-
-        /** PacketGetProfileRes nickName. */
-        public nickName: string;
-
-        /** PacketGetProfileRes email. */
-        public email: string;
-
-        /** PacketGetProfileRes note. */
-        public note: string;
-
-        /** PacketGetProfileRes age. */
-        public age: number;
-
-        /** PacketGetProfileRes sex. */
-        public sex: number;
+        /** PacketGetProfileRes user. */
+        public user?: (pb.ISelfUser|null);
 
         /**
          * Creates a new PacketGetProfileRes instance using the specified properties.

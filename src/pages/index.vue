@@ -6,39 +6,16 @@
         <div class="left_wrap">
             <div class="userinfo">
                 <div class="avatar">
-                    <img :src="getAvatar(Number(userData.userId))" alt="">
+                    <img :src="getAvatar(Number(userData?.userId))" alt="">
                 </div>
-                <h2 class="nickname line1">{{ userData.nickname }}</h2>
+                <h2 class="nickname line1">{{ userData?.nickname }}</h2>
             </div>
-        </div>
-        <div class="session_wrap">
-            <!-- 会话搜索 -->
-            <div class="session_search">
-                <div class="search_input">
-                    <i-ep-search class="icon"/>
-                    <input class="input" type="text" placeholder="阁下请输入搜索内容">
-                </div>
-            </div>
-            <!-- 会话列表 -->
-            <div class="session_list">
-                <router-link :to="{name:'private_msg',params:{userId:Number(item.userId)}}" class="session_item" v-for="item in friendList">
-                    <div class="avatar">
-                        <img :src="getAvatar(Number(item.userId))" alt="">
-                    </div>
-                    <div class="info">
-                        <h3 class="nickname">{{ item.nickname }}</h3>
-                        <p class="desc">暂无信息</p>
-                    </div>
-                    <div class="tip">
-                        <p class="time">23:14</p>
-                    </div>
-                </router-link>
-            </div>
-        </div>
-        <div class="content_wrap">
-            <router-view :key="routerKey"></router-view>
-        </div>
 
+            <router-link :to="{name:'session_page'}">会话页面</router-link>
+            <br>
+            <router-link :to="{name:'friend_page'}">好友页面</router-link>
+        </div>
+        <router-view></router-view>
     </div>
 </template>
 <script setup lang="ts">
@@ -54,9 +31,7 @@ const {setUser,getAvatar} = useUserStore();
 const {userData} = storeToRefs(useUserStore())
 const route = useRoute();
 const router = useRouter();
-const routerKey = computed(() => {
-    return route.fullPath;
-});
+const routerKey = computed(() => route.fullPath);
 
 const token = ref<string>('1');
 const friendList = ref<pb.IFriend[]>([]);
@@ -83,17 +58,22 @@ const loadProfile = async () => {
         //获取好友列表
         const bytes = await ClientManager.getClient().getSDK().getProfile();
         const data = pb.PacketGetProfileRes.decode(bytes);
+        const user = data.user;
+        if(user){
+            setUser({
+                userId:Number(user.userId),
+                nickname:user.nickname??'',
+                username:user.username??'',
+                email:user.email??'',
+                note:user.note??'',
+                age:Number(user.age),
+                sex:Number(user.sex),
+            });
+        }
 
-        setUser({
-            userId:Number(data.userId),
-            nickname:data.nickName,
-            email:data.email,
-            note:data.note,
-            age:data.age,
-            sex:data.sex,
-        });
         
-        console.log('获取当前账号信息',data)
+        
+        console.log('获取当前账号信息',user)
     }catch(e){
         useToast().error(`请求服务端超时`);
     }
@@ -229,6 +209,24 @@ onMounted(()=>{
                     flex:0 0 50px;
                     color:#828282;
                     font-size:14px;
+                    margin-right:10px;
+                    .time{
+                        text-align: right;
+                    }
+                    .unread{
+                        margin-top:5px;
+                        font-style: normal;
+                        color:#fff;
+                        display:block;
+                        font-size:12px;
+                        width:16px;
+                        height:16px;
+                        line-height:16px;
+                        text-align: center;
+                        border-radius: 50%;
+                        background-color: rgb(214, 214, 214);
+                        float:right;
+                    }
                 }
             }
             .router-link-active,

@@ -2253,6 +2253,362 @@ export const pb = $root.pb = (() => {
         return MqMsg;
     })();
 
+    pb.SelfUser = (function() {
+
+        /**
+         * Properties of a SelfUser.
+         * @memberof pb
+         * @interface ISelfUser
+         * @property {number|Long|null} [userId] SelfUser userId
+         * @property {string|null} [nickname] SelfUser nickname
+         * @property {string|null} [username] SelfUser username
+         * @property {string|null} [note] SelfUser note
+         * @property {number|null} [age] SelfUser age
+         * @property {number|null} [sex] SelfUser sex
+         * @property {string|null} [email] SelfUser email
+         */
+
+        /**
+         * Constructs a new SelfUser.
+         * @memberof pb
+         * @classdesc Represents a SelfUser.
+         * @implements ISelfUser
+         * @constructor
+         * @param {pb.ISelfUser=} [properties] Properties to set
+         */
+        function SelfUser(properties) {
+            if (properties)
+                for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * SelfUser userId.
+         * @member {number|Long} userId
+         * @memberof pb.SelfUser
+         * @instance
+         */
+        SelfUser.prototype.userId = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * SelfUser nickname.
+         * @member {string} nickname
+         * @memberof pb.SelfUser
+         * @instance
+         */
+        SelfUser.prototype.nickname = "";
+
+        /**
+         * SelfUser username.
+         * @member {string} username
+         * @memberof pb.SelfUser
+         * @instance
+         */
+        SelfUser.prototype.username = "";
+
+        /**
+         * SelfUser note.
+         * @member {string} note
+         * @memberof pb.SelfUser
+         * @instance
+         */
+        SelfUser.prototype.note = "";
+
+        /**
+         * SelfUser age.
+         * @member {number} age
+         * @memberof pb.SelfUser
+         * @instance
+         */
+        SelfUser.prototype.age = 0;
+
+        /**
+         * SelfUser sex.
+         * @member {number} sex
+         * @memberof pb.SelfUser
+         * @instance
+         */
+        SelfUser.prototype.sex = 0;
+
+        /**
+         * SelfUser email.
+         * @member {string} email
+         * @memberof pb.SelfUser
+         * @instance
+         */
+        SelfUser.prototype.email = "";
+
+        /**
+         * Creates a new SelfUser instance using the specified properties.
+         * @function create
+         * @memberof pb.SelfUser
+         * @static
+         * @param {pb.ISelfUser=} [properties] Properties to set
+         * @returns {pb.SelfUser} SelfUser instance
+         */
+        SelfUser.create = function create(properties) {
+            return new SelfUser(properties);
+        };
+
+        /**
+         * Encodes the specified SelfUser message. Does not implicitly {@link pb.SelfUser.verify|verify} messages.
+         * @function encode
+         * @memberof pb.SelfUser
+         * @static
+         * @param {pb.ISelfUser} message SelfUser message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        SelfUser.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.userId != null && Object.hasOwnProperty.call(message, "userId"))
+                writer.uint32(/* id 1, wireType 0 =*/8).uint64(message.userId);
+            if (message.nickname != null && Object.hasOwnProperty.call(message, "nickname"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.nickname);
+            if (message.username != null && Object.hasOwnProperty.call(message, "username"))
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.username);
+            if (message.note != null && Object.hasOwnProperty.call(message, "note"))
+                writer.uint32(/* id 4, wireType 2 =*/34).string(message.note);
+            if (message.age != null && Object.hasOwnProperty.call(message, "age"))
+                writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.age);
+            if (message.sex != null && Object.hasOwnProperty.call(message, "sex"))
+                writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.sex);
+            if (message.email != null && Object.hasOwnProperty.call(message, "email"))
+                writer.uint32(/* id 7, wireType 2 =*/58).string(message.email);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified SelfUser message, length delimited. Does not implicitly {@link pb.SelfUser.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof pb.SelfUser
+         * @static
+         * @param {pb.ISelfUser} message SelfUser message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        SelfUser.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a SelfUser message from the specified reader or buffer.
+         * @function decode
+         * @memberof pb.SelfUser
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {pb.SelfUser} SelfUser
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        SelfUser.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            let end = length === undefined ? reader.len : reader.pos + length, message = new $root.pb.SelfUser();
+            while (reader.pos < end) {
+                let tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1: {
+                        message.userId = reader.uint64();
+                        break;
+                    }
+                case 2: {
+                        message.nickname = reader.string();
+                        break;
+                    }
+                case 3: {
+                        message.username = reader.string();
+                        break;
+                    }
+                case 4: {
+                        message.note = reader.string();
+                        break;
+                    }
+                case 5: {
+                        message.age = reader.uint32();
+                        break;
+                    }
+                case 6: {
+                        message.sex = reader.uint32();
+                        break;
+                    }
+                case 7: {
+                        message.email = reader.string();
+                        break;
+                    }
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a SelfUser message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof pb.SelfUser
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {pb.SelfUser} SelfUser
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        SelfUser.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a SelfUser message.
+         * @function verify
+         * @memberof pb.SelfUser
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        SelfUser.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.userId != null && message.hasOwnProperty("userId"))
+                if (!$util.isInteger(message.userId) && !(message.userId && $util.isInteger(message.userId.low) && $util.isInteger(message.userId.high)))
+                    return "userId: integer|Long expected";
+            if (message.nickname != null && message.hasOwnProperty("nickname"))
+                if (!$util.isString(message.nickname))
+                    return "nickname: string expected";
+            if (message.username != null && message.hasOwnProperty("username"))
+                if (!$util.isString(message.username))
+                    return "username: string expected";
+            if (message.note != null && message.hasOwnProperty("note"))
+                if (!$util.isString(message.note))
+                    return "note: string expected";
+            if (message.age != null && message.hasOwnProperty("age"))
+                if (!$util.isInteger(message.age))
+                    return "age: integer expected";
+            if (message.sex != null && message.hasOwnProperty("sex"))
+                if (!$util.isInteger(message.sex))
+                    return "sex: integer expected";
+            if (message.email != null && message.hasOwnProperty("email"))
+                if (!$util.isString(message.email))
+                    return "email: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a SelfUser message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof pb.SelfUser
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {pb.SelfUser} SelfUser
+         */
+        SelfUser.fromObject = function fromObject(object) {
+            if (object instanceof $root.pb.SelfUser)
+                return object;
+            let message = new $root.pb.SelfUser();
+            if (object.userId != null)
+                if ($util.Long)
+                    (message.userId = $util.Long.fromValue(object.userId)).unsigned = true;
+                else if (typeof object.userId === "string")
+                    message.userId = parseInt(object.userId, 10);
+                else if (typeof object.userId === "number")
+                    message.userId = object.userId;
+                else if (typeof object.userId === "object")
+                    message.userId = new $util.LongBits(object.userId.low >>> 0, object.userId.high >>> 0).toNumber(true);
+            if (object.nickname != null)
+                message.nickname = String(object.nickname);
+            if (object.username != null)
+                message.username = String(object.username);
+            if (object.note != null)
+                message.note = String(object.note);
+            if (object.age != null)
+                message.age = object.age >>> 0;
+            if (object.sex != null)
+                message.sex = object.sex >>> 0;
+            if (object.email != null)
+                message.email = String(object.email);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a SelfUser message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof pb.SelfUser
+         * @static
+         * @param {pb.SelfUser} message SelfUser
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        SelfUser.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            let object = {};
+            if (options.defaults) {
+                if ($util.Long) {
+                    let long = new $util.Long(0, 0, true);
+                    object.userId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.userId = options.longs === String ? "0" : 0;
+                object.nickname = "";
+                object.username = "";
+                object.note = "";
+                object.age = 0;
+                object.sex = 0;
+                object.email = "";
+            }
+            if (message.userId != null && message.hasOwnProperty("userId"))
+                if (typeof message.userId === "number")
+                    object.userId = options.longs === String ? String(message.userId) : message.userId;
+                else
+                    object.userId = options.longs === String ? $util.Long.prototype.toString.call(message.userId) : options.longs === Number ? new $util.LongBits(message.userId.low >>> 0, message.userId.high >>> 0).toNumber(true) : message.userId;
+            if (message.nickname != null && message.hasOwnProperty("nickname"))
+                object.nickname = message.nickname;
+            if (message.username != null && message.hasOwnProperty("username"))
+                object.username = message.username;
+            if (message.note != null && message.hasOwnProperty("note"))
+                object.note = message.note;
+            if (message.age != null && message.hasOwnProperty("age"))
+                object.age = message.age;
+            if (message.sex != null && message.hasOwnProperty("sex"))
+                object.sex = message.sex;
+            if (message.email != null && message.hasOwnProperty("email"))
+                object.email = message.email;
+            return object;
+        };
+
+        /**
+         * Converts this SelfUser to JSON.
+         * @function toJSON
+         * @memberof pb.SelfUser
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        SelfUser.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        /**
+         * Gets the default type url for SelfUser
+         * @function getTypeUrl
+         * @memberof pb.SelfUser
+         * @static
+         * @param {string} [typeUrlPrefix] your custom typeUrlPrefix(default "type.googleapis.com")
+         * @returns {string} The default type url
+         */
+        SelfUser.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/pb.SelfUser";
+        };
+
+        return SelfUser;
+    })();
+
     pb.User = (function() {
 
         /**
@@ -2262,6 +2618,9 @@ export const pb = $root.pb = (() => {
          * @property {number|Long|null} [userId] User userId
          * @property {string|null} [nickname] User nickname
          * @property {string|null} [username] User username
+         * @property {string|null} [note] User note
+         * @property {number|null} [age] User age
+         * @property {number|null} [sex] User sex
          */
 
         /**
@@ -2304,6 +2663,30 @@ export const pb = $root.pb = (() => {
         User.prototype.username = "";
 
         /**
+         * User note.
+         * @member {string} note
+         * @memberof pb.User
+         * @instance
+         */
+        User.prototype.note = "";
+
+        /**
+         * User age.
+         * @member {number} age
+         * @memberof pb.User
+         * @instance
+         */
+        User.prototype.age = 0;
+
+        /**
+         * User sex.
+         * @member {number} sex
+         * @memberof pb.User
+         * @instance
+         */
+        User.prototype.sex = 0;
+
+        /**
          * Creates a new User instance using the specified properties.
          * @function create
          * @memberof pb.User
@@ -2333,6 +2716,12 @@ export const pb = $root.pb = (() => {
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.nickname);
             if (message.username != null && Object.hasOwnProperty.call(message, "username"))
                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.username);
+            if (message.note != null && Object.hasOwnProperty.call(message, "note"))
+                writer.uint32(/* id 4, wireType 2 =*/34).string(message.note);
+            if (message.age != null && Object.hasOwnProperty.call(message, "age"))
+                writer.uint32(/* id 5, wireType 0 =*/40).uint32(message.age);
+            if (message.sex != null && Object.hasOwnProperty.call(message, "sex"))
+                writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.sex);
             return writer;
         };
 
@@ -2379,6 +2768,18 @@ export const pb = $root.pb = (() => {
                         message.username = reader.string();
                         break;
                     }
+                case 4: {
+                        message.note = reader.string();
+                        break;
+                    }
+                case 5: {
+                        message.age = reader.uint32();
+                        break;
+                    }
+                case 6: {
+                        message.sex = reader.uint32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -2423,6 +2824,15 @@ export const pb = $root.pb = (() => {
             if (message.username != null && message.hasOwnProperty("username"))
                 if (!$util.isString(message.username))
                     return "username: string expected";
+            if (message.note != null && message.hasOwnProperty("note"))
+                if (!$util.isString(message.note))
+                    return "note: string expected";
+            if (message.age != null && message.hasOwnProperty("age"))
+                if (!$util.isInteger(message.age))
+                    return "age: integer expected";
+            if (message.sex != null && message.hasOwnProperty("sex"))
+                if (!$util.isInteger(message.sex))
+                    return "sex: integer expected";
             return null;
         };
 
@@ -2451,6 +2861,12 @@ export const pb = $root.pb = (() => {
                 message.nickname = String(object.nickname);
             if (object.username != null)
                 message.username = String(object.username);
+            if (object.note != null)
+                message.note = String(object.note);
+            if (object.age != null)
+                message.age = object.age >>> 0;
+            if (object.sex != null)
+                message.sex = object.sex >>> 0;
             return message;
         };
 
@@ -2475,6 +2891,9 @@ export const pb = $root.pb = (() => {
                     object.userId = options.longs === String ? "0" : 0;
                 object.nickname = "";
                 object.username = "";
+                object.note = "";
+                object.age = 0;
+                object.sex = 0;
             }
             if (message.userId != null && message.hasOwnProperty("userId"))
                 if (typeof message.userId === "number")
@@ -2485,6 +2904,12 @@ export const pb = $root.pb = (() => {
                 object.nickname = message.nickname;
             if (message.username != null && message.hasOwnProperty("username"))
                 object.username = message.username;
+            if (message.note != null && message.hasOwnProperty("note"))
+                object.note = message.note;
+            if (message.age != null && message.hasOwnProperty("age"))
+                object.age = message.age;
+            if (message.sex != null && message.hasOwnProperty("sex"))
+                object.sex = message.sex;
             return object;
         };
 
@@ -2528,6 +2953,9 @@ export const pb = $root.pb = (() => {
          * @property {string|null} [nickname] Friend nickname
          * @property {string|null} [username] Friend username
          * @property {string|null} [remark] Friend remark
+         * @property {string|null} [note] Friend note
+         * @property {number|null} [age] Friend age
+         * @property {number|null} [sex] Friend sex
          */
 
         /**
@@ -2586,6 +3014,30 @@ export const pb = $root.pb = (() => {
         Friend.prototype.remark = "";
 
         /**
+         * Friend note.
+         * @member {string} note
+         * @memberof pb.Friend
+         * @instance
+         */
+        Friend.prototype.note = "";
+
+        /**
+         * Friend age.
+         * @member {number} age
+         * @memberof pb.Friend
+         * @instance
+         */
+        Friend.prototype.age = 0;
+
+        /**
+         * Friend sex.
+         * @member {number} sex
+         * @memberof pb.Friend
+         * @instance
+         */
+        Friend.prototype.sex = 0;
+
+        /**
          * Creates a new Friend instance using the specified properties.
          * @function create
          * @memberof pb.Friend
@@ -2619,6 +3071,12 @@ export const pb = $root.pb = (() => {
                 writer.uint32(/* id 4, wireType 2 =*/34).string(message.username);
             if (message.remark != null && Object.hasOwnProperty.call(message, "remark"))
                 writer.uint32(/* id 5, wireType 2 =*/42).string(message.remark);
+            if (message.note != null && Object.hasOwnProperty.call(message, "note"))
+                writer.uint32(/* id 6, wireType 2 =*/50).string(message.note);
+            if (message.age != null && Object.hasOwnProperty.call(message, "age"))
+                writer.uint32(/* id 7, wireType 0 =*/56).int32(message.age);
+            if (message.sex != null && Object.hasOwnProperty.call(message, "sex"))
+                writer.uint32(/* id 8, wireType 0 =*/64).int32(message.sex);
             return writer;
         };
 
@@ -2673,6 +3131,18 @@ export const pb = $root.pb = (() => {
                         message.remark = reader.string();
                         break;
                     }
+                case 6: {
+                        message.note = reader.string();
+                        break;
+                    }
+                case 7: {
+                        message.age = reader.int32();
+                        break;
+                    }
+                case 8: {
+                        message.sex = reader.int32();
+                        break;
+                    }
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -2723,6 +3193,15 @@ export const pb = $root.pb = (() => {
             if (message.remark != null && message.hasOwnProperty("remark"))
                 if (!$util.isString(message.remark))
                     return "remark: string expected";
+            if (message.note != null && message.hasOwnProperty("note"))
+                if (!$util.isString(message.note))
+                    return "note: string expected";
+            if (message.age != null && message.hasOwnProperty("age"))
+                if (!$util.isInteger(message.age))
+                    return "age: integer expected";
+            if (message.sex != null && message.hasOwnProperty("sex"))
+                if (!$util.isInteger(message.sex))
+                    return "sex: integer expected";
             return null;
         };
 
@@ -2762,6 +3241,12 @@ export const pb = $root.pb = (() => {
                 message.username = String(object.username);
             if (object.remark != null)
                 message.remark = String(object.remark);
+            if (object.note != null)
+                message.note = String(object.note);
+            if (object.age != null)
+                message.age = object.age | 0;
+            if (object.sex != null)
+                message.sex = object.sex | 0;
             return message;
         };
 
@@ -2792,6 +3277,9 @@ export const pb = $root.pb = (() => {
                 object.nickname = "";
                 object.username = "";
                 object.remark = "";
+                object.note = "";
+                object.age = 0;
+                object.sex = 0;
             }
             if (message.friendId != null && message.hasOwnProperty("friendId"))
                 if (typeof message.friendId === "number")
@@ -2809,6 +3297,12 @@ export const pb = $root.pb = (() => {
                 object.username = message.username;
             if (message.remark != null && message.hasOwnProperty("remark"))
                 object.remark = message.remark;
+            if (message.note != null && message.hasOwnProperty("note"))
+                object.note = message.note;
+            if (message.age != null && message.hasOwnProperty("age"))
+                object.age = message.age;
+            if (message.sex != null && message.hasOwnProperty("sex"))
+                object.sex = message.sex;
             return object;
         };
 
@@ -10107,12 +10601,7 @@ export const pb = $root.pb = (() => {
          * Properties of a PacketGetProfileRes.
          * @memberof pb
          * @interface IPacketGetProfileRes
-         * @property {number|Long|null} [userId] PacketGetProfileRes userId
-         * @property {string|null} [nickName] PacketGetProfileRes nickName
-         * @property {string|null} [email] PacketGetProfileRes email
-         * @property {string|null} [note] PacketGetProfileRes note
-         * @property {number|null} [age] PacketGetProfileRes age
-         * @property {number|null} [sex] PacketGetProfileRes sex
+         * @property {pb.ISelfUser|null} [user] PacketGetProfileRes user
          */
 
         /**
@@ -10131,52 +10620,12 @@ export const pb = $root.pb = (() => {
         }
 
         /**
-         * PacketGetProfileRes userId.
-         * @member {number|Long} userId
+         * PacketGetProfileRes user.
+         * @member {pb.ISelfUser|null|undefined} user
          * @memberof pb.PacketGetProfileRes
          * @instance
          */
-        PacketGetProfileRes.prototype.userId = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-
-        /**
-         * PacketGetProfileRes nickName.
-         * @member {string} nickName
-         * @memberof pb.PacketGetProfileRes
-         * @instance
-         */
-        PacketGetProfileRes.prototype.nickName = "";
-
-        /**
-         * PacketGetProfileRes email.
-         * @member {string} email
-         * @memberof pb.PacketGetProfileRes
-         * @instance
-         */
-        PacketGetProfileRes.prototype.email = "";
-
-        /**
-         * PacketGetProfileRes note.
-         * @member {string} note
-         * @memberof pb.PacketGetProfileRes
-         * @instance
-         */
-        PacketGetProfileRes.prototype.note = "";
-
-        /**
-         * PacketGetProfileRes age.
-         * @member {number} age
-         * @memberof pb.PacketGetProfileRes
-         * @instance
-         */
-        PacketGetProfileRes.prototype.age = 0;
-
-        /**
-         * PacketGetProfileRes sex.
-         * @member {number} sex
-         * @memberof pb.PacketGetProfileRes
-         * @instance
-         */
-        PacketGetProfileRes.prototype.sex = 0;
+        PacketGetProfileRes.prototype.user = null;
 
         /**
          * Creates a new PacketGetProfileRes instance using the specified properties.
@@ -10202,18 +10651,8 @@ export const pb = $root.pb = (() => {
         PacketGetProfileRes.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.userId != null && Object.hasOwnProperty.call(message, "userId"))
-                writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.userId);
-            if (message.nickName != null && Object.hasOwnProperty.call(message, "nickName"))
-                writer.uint32(/* id 3, wireType 2 =*/26).string(message.nickName);
-            if (message.email != null && Object.hasOwnProperty.call(message, "email"))
-                writer.uint32(/* id 4, wireType 2 =*/34).string(message.email);
-            if (message.note != null && Object.hasOwnProperty.call(message, "note"))
-                writer.uint32(/* id 5, wireType 2 =*/42).string(message.note);
-            if (message.age != null && Object.hasOwnProperty.call(message, "age"))
-                writer.uint32(/* id 6, wireType 0 =*/48).uint32(message.age);
-            if (message.sex != null && Object.hasOwnProperty.call(message, "sex"))
-                writer.uint32(/* id 7, wireType 0 =*/56).uint32(message.sex);
+            if (message.user != null && Object.hasOwnProperty.call(message, "user"))
+                $root.pb.SelfUser.encode(message.user, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
             return writer;
         };
 
@@ -10248,28 +10687,8 @@ export const pb = $root.pb = (() => {
             while (reader.pos < end) {
                 let tag = reader.uint32();
                 switch (tag >>> 3) {
-                case 2: {
-                        message.userId = reader.uint64();
-                        break;
-                    }
-                case 3: {
-                        message.nickName = reader.string();
-                        break;
-                    }
-                case 4: {
-                        message.email = reader.string();
-                        break;
-                    }
-                case 5: {
-                        message.note = reader.string();
-                        break;
-                    }
-                case 6: {
-                        message.age = reader.uint32();
-                        break;
-                    }
-                case 7: {
-                        message.sex = reader.uint32();
+                case 1: {
+                        message.user = $root.pb.SelfUser.decode(reader, reader.uint32());
                         break;
                     }
                 default:
@@ -10307,24 +10726,11 @@ export const pb = $root.pb = (() => {
         PacketGetProfileRes.verify = function verify(message) {
             if (typeof message !== "object" || message === null)
                 return "object expected";
-            if (message.userId != null && message.hasOwnProperty("userId"))
-                if (!$util.isInteger(message.userId) && !(message.userId && $util.isInteger(message.userId.low) && $util.isInteger(message.userId.high)))
-                    return "userId: integer|Long expected";
-            if (message.nickName != null && message.hasOwnProperty("nickName"))
-                if (!$util.isString(message.nickName))
-                    return "nickName: string expected";
-            if (message.email != null && message.hasOwnProperty("email"))
-                if (!$util.isString(message.email))
-                    return "email: string expected";
-            if (message.note != null && message.hasOwnProperty("note"))
-                if (!$util.isString(message.note))
-                    return "note: string expected";
-            if (message.age != null && message.hasOwnProperty("age"))
-                if (!$util.isInteger(message.age))
-                    return "age: integer expected";
-            if (message.sex != null && message.hasOwnProperty("sex"))
-                if (!$util.isInteger(message.sex))
-                    return "sex: integer expected";
+            if (message.user != null && message.hasOwnProperty("user")) {
+                let error = $root.pb.SelfUser.verify(message.user);
+                if (error)
+                    return "user." + error;
+            }
             return null;
         };
 
@@ -10340,25 +10746,11 @@ export const pb = $root.pb = (() => {
             if (object instanceof $root.pb.PacketGetProfileRes)
                 return object;
             let message = new $root.pb.PacketGetProfileRes();
-            if (object.userId != null)
-                if ($util.Long)
-                    (message.userId = $util.Long.fromValue(object.userId)).unsigned = true;
-                else if (typeof object.userId === "string")
-                    message.userId = parseInt(object.userId, 10);
-                else if (typeof object.userId === "number")
-                    message.userId = object.userId;
-                else if (typeof object.userId === "object")
-                    message.userId = new $util.LongBits(object.userId.low >>> 0, object.userId.high >>> 0).toNumber(true);
-            if (object.nickName != null)
-                message.nickName = String(object.nickName);
-            if (object.email != null)
-                message.email = String(object.email);
-            if (object.note != null)
-                message.note = String(object.note);
-            if (object.age != null)
-                message.age = object.age >>> 0;
-            if (object.sex != null)
-                message.sex = object.sex >>> 0;
+            if (object.user != null) {
+                if (typeof object.user !== "object")
+                    throw TypeError(".pb.PacketGetProfileRes.user: object expected");
+                message.user = $root.pb.SelfUser.fromObject(object.user);
+            }
             return message;
         };
 
@@ -10375,33 +10767,10 @@ export const pb = $root.pb = (() => {
             if (!options)
                 options = {};
             let object = {};
-            if (options.defaults) {
-                if ($util.Long) {
-                    let long = new $util.Long(0, 0, true);
-                    object.userId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                } else
-                    object.userId = options.longs === String ? "0" : 0;
-                object.nickName = "";
-                object.email = "";
-                object.note = "";
-                object.age = 0;
-                object.sex = 0;
-            }
-            if (message.userId != null && message.hasOwnProperty("userId"))
-                if (typeof message.userId === "number")
-                    object.userId = options.longs === String ? String(message.userId) : message.userId;
-                else
-                    object.userId = options.longs === String ? $util.Long.prototype.toString.call(message.userId) : options.longs === Number ? new $util.LongBits(message.userId.low >>> 0, message.userId.high >>> 0).toNumber(true) : message.userId;
-            if (message.nickName != null && message.hasOwnProperty("nickName"))
-                object.nickName = message.nickName;
-            if (message.email != null && message.hasOwnProperty("email"))
-                object.email = message.email;
-            if (message.note != null && message.hasOwnProperty("note"))
-                object.note = message.note;
-            if (message.age != null && message.hasOwnProperty("age"))
-                object.age = message.age;
-            if (message.sex != null && message.hasOwnProperty("sex"))
-                object.sex = message.sex;
+            if (options.defaults)
+                object.user = null;
+            if (message.user != null && message.hasOwnProperty("user"))
+                object.user = $root.pb.SelfUser.toObject(message.user, options);
             return object;
         };
 

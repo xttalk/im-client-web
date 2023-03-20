@@ -3,19 +3,20 @@ import { defineStore } from "pinia";
 
 
 interface ISelfUser{
-    userId?:number//用户Id
-    nickname?:string //用户名称
-    email?:string //邮箱
-    note?:string //说明
-    age?:number //年龄
-    sex?:number //性别
+    userId:number//用户Id
+    nickname:string //用户名称
+    username:string //用户账号
+    email:string //邮箱
+    note:string //说明
+    age:number //年龄
+    sex:number //性别
 }
 
 
 
 export const useUserStore = defineStore('user',()=>{
     //用户数据
-    const userData = ref<ISelfUser>({});
+    const userData = ref<ISelfUser>();
     const setUser = (value:ISelfUser):void => {
         userData.value = value;
     }

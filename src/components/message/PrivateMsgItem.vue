@@ -27,7 +27,7 @@
 import { pb } from '@/proto/proto';
 import { storeToRefs } from 'pinia';
 import { useUserStore } from '@/stores/useUserStore';
-import {ToText,ToImage} from '@/XtTalkSDK/msg';
+import {ToText,ToImage} from '@/XtTalkSDK/utils';
 const {getAvatar} = useUserStore();
 const {userData} = storeToRefs(useUserStore())
 const props = defineProps({

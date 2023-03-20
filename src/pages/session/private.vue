@@ -1,11 +1,9 @@
 <template>
-    
     <!-- 私聊消息页面组件 -->
     <div class="private_page">
         <div class="header">
             <h2 class="nickname">{{ friendInfo?.nickname }}</h2>
         </div>
-
         <div class="msg_list" ref="msgList">
             <PrivateMsgItem v-for="msg in messageList" :msg="msg"></PrivateMsgItem>
         </div>
@@ -17,7 +15,9 @@ import { pb } from '@/proto/proto';
 import useToast from '@/utils/useToast';
 import { EventName } from '@/XtTalkSDK/client';
 import ClientManager from '@/XtTalkSDK/common';
-
+import {useSessionStore} from '@/stores/useSessionStore';
+import { GetSimpleMsg } from '@/XtTalkSDK/utils';
+const {updateSession} = useSessionStore();
 const route = useRoute();
 const router = useRouter();
 const friendInfo = ref<pb.IFriend|null>();//好友信息
@@ -34,32 +34,8 @@ const loadFriendPage = async (userId:number) => {
     }
     console.log(data)
     friendInfo.value = data.friend;
-    //私聊消息事件
-    ClientManager.getClient().getEvent().addEventListener(EventName.PrivateMsgEvent,(bytes:Uint8Array)=>{
-        const msg = pb.PacketPrivateMsg.decode(bytes);
-        // todo 需要判断消息来源
-        console.log('收到私聊消息',msg);
-        messageList.value.push(msg);
-        scrollToEnd(true);
-    });
-    ClientManager.getClient().getEvent().addEventListener(EventName.PrivateMsgAckEvent,(bytes:Uint8Array)=>{
-        const msg = pb.PacketPrivateMsgAck.decode(bytes);
-        console.log('收到消息发送成功',msg);
-        // todo 需要判断消息来源
-        //补全对应消息的记录数据
-        // if(msg.retCode == ) //这里后续判断消息确认类型，可能为送达、已读
 
-
-        //查询消息设置msgid和seq
-        for(let i=0;i<messageList.value.length;i++){
-            let item = messageList.value[i];
-            if(item.msgRand == msg.msgRand && item.msgSeq == item.msgSeq){
-                item.seq = msg.seq;
-                item.msgId = msg.msgId;
-                break;
-            }
-        }
-    });
+    //加载消息列表
     loadMessage(userId,0);
 
 }
@@ -69,11 +45,25 @@ const loadMessage = async (userId:number,lastMsgId:number) => {
     const bytes = await ClientManager.getClient().getSDK().getPrivateMsgList(userId,20,lastMsgId);
     const data = pb.PacketPrivateMsgListResp.decode(bytes);
     console.log(data);
+
     data.list.forEach(item=>{
         messageList.value.push(pb.PacketPrivateMsg.create(item));
     });
     await nextTick();
     scrollToEnd(true);
+
+    //消息首次加载时显示最后一条消息提交到列表
+    if(lastMsgId == 0 && messageList.value.length > 0){
+        const lastMsg = messageList.value[messageList.value.length - 1];
+        updateSession({
+            targetType:'private_session',
+            targetId:userId,
+            content:GetSimpleMsg(lastMsg.msgType,lastMsg.payload),
+            time:Number(lastMsg.serverTime),
+            unread:0,//清空unread
+        });
+    }
+    
 }
 
 //消息发送
@@ -112,7 +102,40 @@ const scrollToStart = async() => {
 onMounted(()=>{
     const { userId } = route.params;
     loadFriendPage(Number(userId));
+    ClientManager.getClient().getEvent().addEventListener(EventName.PrivateMsgEvent,OnPrivateMsgEvent);
+    ClientManager.getClient().getEvent().addEventListener(EventName.PrivateMsgAckEvent,OnPrivateMsgAckEvent);
 });
+onUnmounted(()=>{
+    ClientManager.getClient().getEvent().removeEventListener(EventName.PrivateMsgEvent,OnPrivateMsgEvent);
+    ClientManager.getClient().getEvent().removeEventListener(EventName.PrivateMsgAckEvent,OnPrivateMsgAckEvent);
+});
+
+
+//私聊消息事件
+const OnPrivateMsgEvent = (bytes:Uint8Array) => {
+    const msg = pb.PacketPrivateMsg.decode(bytes);
+    // todo 需要判断消息来源
+    console.log('private.vue','收到私聊消息',msg);
+    messageList.value.push(msg);
+    scrollToEnd(true);
+}
+//私聊消息送达事件
+const OnPrivateMsgAckEvent = (bytes:Uint8Array) => {
+    const msg = pb.PacketPrivateMsgAck.decode(bytes);
+    console.log('收到消息发送成功',msg);
+    // todo 需要判断消息来源
+    //补全对应消息的记录数据
+    // if(msg.retCode == ) //这里后续判断消息确认类型，可能为送达、已读
+    //查询消息设置msgid和seq
+    for(let i=0;i<messageList.value.length;i++){
+        let item = messageList.value[i];
+        if(item.msgRand == msg.msgRand && item.msgSeq == item.msgSeq){
+            item.seq = msg.seq;
+            item.msgId = msg.msgId;
+            break;
+        }
+    }
+}
 
 
 </script>

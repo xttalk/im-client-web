@@ -10,6 +10,7 @@ export enum EventName{
 
 }
 export class Client{
+    private url:string = '';
     public socket:WebSocket|undefined;
     public event:XtTalkEvent;
     private sdk:XtTalkSdk;
@@ -29,6 +30,7 @@ export class Client{
         this.socket.onclose = this.onClose.bind(this);
         this.socket.onmessage = this.onMessage.bind(this);
         this.socket.bufferedAmount;
+        this.url = url;
     }
 
 
@@ -161,10 +163,16 @@ export class Client{
     }
 
     private onOpen(){
+
         console.log('与服务端成功连接');
     }
     private onClose(){
         console.log('与服务端断开连接');
+        if(this.url.length > 0){
+            setTimeout(() => {
+                this.connect(this.url)
+            }, 1000 * 3);
+        }
     }
 
 

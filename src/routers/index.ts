@@ -7,11 +7,35 @@ const routes:RouteRecordRaw[] = [
         name:'index',
         component:()=>import('@/pages/index.vue'),
         children:[
-            {//私聊对话
-                path:'/private_msg/:userId',
-                name:'private_msg',
-                component:()=>import('@/pages/chat/private.vue'),
-            }
+            //会话页面
+            {
+                path:'/session',
+                name:'session_page',
+                component:()=>import('@/pages/session/index.vue'),
+                children:[
+                    //私聊会话
+                    {
+                        path:'/private/:userId',
+                        name:'private_session',
+                        component:()=>import('@/pages/session/private.vue')
+                    }
+                ]
+            },
+            //好友页面
+            {
+                path:'/friend',
+                name:'friend_page',
+                component:()=>import('@/pages/friend/index.vue'),
+                children:[
+                    {
+                        path:'/friend/:userId',
+                        name:'friend_info',
+                        component:()=>import('@/pages/friend/info.vue')
+                    }
+                ]
+            },
+            // 群组页面
+
         ]
     },
 ];

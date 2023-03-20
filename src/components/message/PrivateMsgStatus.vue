@@ -1,9 +1,9 @@
 <template>
     <div class="time" v-if="msg">
-        {{ useMoment()(Number(msg.serverTime == 0 ? msg.clientTime : msg.serverTime) * 1000).format('HH:mm') }}
+        {{ useMoment(Number(msg.serverTime == 0 ? msg.clientTime : msg.serverTime) * 1000).format('HH:mm') }}
 
         <!-- 消息发送状态只有自己可见 -->
-        <template v-if="userData.userId == msg.fromId">
+        <template v-if="userData?.userId == msg.fromId">
             <template v-if="msg.msgId == 0">
                 <i class="icon-dengdailoukong xt-icon status status-wait" title="发送中"></i>
             </template>
